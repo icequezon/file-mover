@@ -16,8 +16,8 @@ class FileMover:
 
     def handle_event(self, event):
         logger.info(f"Handling event: {event}")
-        path = Path(event[constants.REDIS_EVENT_PATH_KEY].decode("ascii"))
-        event_type = event[constants.REDIS_EVENT_TYPE_KEY].decode("ascii")
+        path = Path(event[constants.REDIS_EVENT_PATH_KEY].decode("utf-8"))
+        event_type = event[constants.REDIS_EVENT_TYPE_KEY].decode("utf-8")
 
         if constants.INOTIFY_CREATE_EVENT in event_type:
             logger.debug("File was just created. Waiting for file copy to finish.")
