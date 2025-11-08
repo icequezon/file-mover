@@ -1,6 +1,10 @@
 import os
 
-from src.exceptions import EmptyFileException, IgnoreDotfileException, MissingFileException
+from src.exceptions import (
+    EmptyFileException,
+    IgnoreDotfileException,
+    MissingFileException,
+)
 from src.logger import logger
 from src.redis import RedisConnection
 from src.mover import FileMover
@@ -21,7 +25,7 @@ class FileMoverWorker:
 
     def process_messages(self, messages):
         for _, entries in messages:
-            for _, data in entries:
+            for message_id, data in entries:
                 try:
                     self.mover.handle_event(data)
                 except EmptyFileException:
@@ -32,9 +36,14 @@ class FileMoverWorker:
                     logger.debug("File is a dotfile. Skipping event.")
                 except Exception as e:
                     logger.error(f"{repr(e)}")
+                self.redis.ack_message(message_id)
 
     def run(self):
         self.redis.init_consumer_group(REDIS_CONSUMER_GROUP)
         while True:
+            if not self.redis.has_been_idle():
+                # Wait until no new events are firing before consuming
+                continue
+
             messages = self.redis.get_messages_from_consumer_group(REDIS_CONSUMER)
             self.process_messages(messages)

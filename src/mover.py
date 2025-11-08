@@ -2,7 +2,11 @@ from src import constants
 from src.classifiers.rule_classifier import RuleClassifier
 from src.utils.metadata import extract_date_info
 from src.logger import logger
-from src.exceptions import EmptyFileException, MissingFileException, IgnoreDotfileException
+from src.exceptions import (
+    EmptyFileException,
+    MissingFileException,
+    IgnoreDotfileException,
+)
 
 from pathlib import Path
 
