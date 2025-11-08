@@ -24,10 +24,10 @@ jobs:
 
       - name: Build Docker Image with Tag
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/dir-scout:${{ env.TAG }} .
-          docker tag ${{ secrets.DOCKER_USERNAME }}/dir-scout:${{ env.TAG }} ${{ secrets.DOCKER_USERNAME }}/dir-scout:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/file-mover:${{ env.TAG }} .
+          docker tag ${{ secrets.DOCKER_USERNAME }}/file-mover:${{ env.TAG }} ${{ secrets.DOCKER_USERNAME }}/file-mover:latest
 
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/dir-scout:${{ env.TAG }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/dir-scout:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/file-mover:${{ env.TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/file-mover:latest
