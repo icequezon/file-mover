@@ -11,15 +11,14 @@ class RuleClassifier:
             match = rule.get("match", {})
             exts = match.get("extensions")
             contains = match.get("contains")
+            path_suffix = path.suffix.lower()
 
             if exts and contains:
-                if path.suffix in exts and contains in str(path):
+                if path_suffix in exts and contains in str(path):
                     return rule
-            elif exts:
-                if path.suffix in exts:
-                    return rule
-            elif contains:
-                if contains in str(path):
-                    return rule
+            elif exts and path_suffix in exts:
+                return rule
+            elif contains and contains in str(path):
+                return rule
 
         return None
