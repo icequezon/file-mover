@@ -1,4 +1,5 @@
 import os
+import time
 
 from src.exceptions import (
     EmptyFileException,
@@ -42,9 +43,9 @@ class FileMoverWorker:
     def run(self):
         self.redis.init_consumer_group(REDIS_CONSUMER_GROUP)
         while True:
-            if not self.redis.has_been_idle(self.idle_threshold):
+            while not self.redis.has_been_idle(self.idle_threshold):
                 # Wait until no new events are firing before consuming
-                continue
+                time.sleep(0.1)
 
             messages = self.redis.get_messages_from_consumer_group(REDIS_CONSUMER)
             self.process_messages(messages)
