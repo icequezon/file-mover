@@ -20,3 +20,4 @@ settings:
   use_ai_suggestions: false
   ignore_dotfiles: true
   inotify_finish_event: "CLOSE_WRITE"
+  idle_threshold: 2

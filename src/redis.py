@@ -34,7 +34,7 @@ class RedisConnection:
             consumer_name,
             {self.redis_stream_name: ">"},
             block=5000,
-            count=10,
+            count=100,
         )
 
     def ack_message(self, message_id):

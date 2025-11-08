@@ -22,6 +22,7 @@ class FileMoverWorker:
     def __init__(self, config):
         self.redis = RedisConnection(REDIS_FULL_URL, REDIS_STREAM)
         self.mover = FileMover(config)
+        self.idle_threshold = config.get("settings", {}).get("idle_threshold", 2)
 
     def process_messages(self, messages):
         for _, entries in messages:
@@ -41,7 +42,7 @@ class FileMoverWorker:
     def run(self):
         self.redis.init_consumer_group(REDIS_CONSUMER_GROUP)
         while True:
-            if not self.redis.has_been_idle():
+            if not self.redis.has_been_idle(self.idle_threshold):
                 # Wait until no new events are firing before consuming
                 continue
 
