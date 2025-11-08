@@ -19,6 +19,10 @@ WORKDIR /app
 
 COPY --from=builder /app /app
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 ENV PATH="/app/.venv/bin:$PATH" 
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["python", "-m", "main"]

@@ -27,8 +27,8 @@ class FileMover:
             logger.debug("File was just deleted. Skipping...")
             return
 
-        if event_type != constants.INOTIFY_FINISHED_WRITE_EVENT:
-            logger.debug("Event not supported")
+        if constants.INOTIFY_FINISHED_WRITE_EVENT not in event_type:
+            logger.debug(f"Event {event} not supported")
             return
 
         if not path.exists():
