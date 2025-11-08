@@ -14,9 +14,11 @@ def extract_date_info(file_path):
         for tag, value in exif.items():
             if TAGS.get(tag) == "DateTimeOriginal":
                 date = datetime.strptime(value, "%Y:%m:%d %H:%M:%S")
+                monthName = date.strftime("%B")
                 return {
                     "year": date.year,
                     "month": f"{date.month:02d}",
+                    "monthName": f"{monthName}",
                     "day": f"{date.day}",
                 }
     except Exception:
@@ -27,5 +29,11 @@ def extract_date_info(file_path):
 
     ts = os.path.getmtime(file_path)
     date = datetime.fromtimestamp(ts)
+    monthName = date.strftime("%B")
 
-    return {"year": date.year, "month": f"{date.month:02d}", "day": f"{date.day}"}
+    return {
+        "year": date.year,
+        "month": f"{date.month:02d}",
+        "monthName": f"{monthName}",
+        "day": f"{date.day}",
+    }
