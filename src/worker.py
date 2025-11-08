@@ -24,9 +24,9 @@ class FileMoverWorker:
             for _, data in entries:
                 try:
                     self.mover.handle_event(data)
-                except MissingFileException as e:
+                except MissingFileException:
                     logger.debug("File not found. Skipping event.")
-                except IgnoreDotfileException as e:
+                except IgnoreDotfileException:
                     logger.debug("File is a dotfile. Skipping event.")
                 except Exception as e:
                     logger.error(f"{repr(e)}")

@@ -37,7 +37,7 @@ class FileMover:
         if not path.exists():
             raise MissingFileException("File not found")
 
-        rule = self.rule_classifier.match(path, event_type)
+        rule = self.rule_classifier.match(path)
         if rule:
             logger.debug(f"Applying rule: {rule['name']} to {str(path)}")
             dest_pattern = rule.get("destination_pattern") or rule.get("destination")
@@ -60,6 +60,6 @@ class FileMover:
 
     def check_dotfiles(self, path):
         starting_char = path.name[0]
-        is_dotfile = starting_char == '.'
+        is_dotfile = starting_char == "."
         if self.ignore_dotfiles and is_dotfile:
             raise IgnoreDotfileException("Ignore dot files.")

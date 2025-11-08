@@ -1,6 +1,5 @@
 import logging
 import inspect
-from datetime import datetime
 
 
 class AppLogger:
