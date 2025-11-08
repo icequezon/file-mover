@@ -1,0 +1,20 @@
+rules:
+  - name: Camera Photos
+    match:
+      extensions: [".jpg", ".jpeg", ".png"]
+    destination_pattern: "/organized/photos/{year}/{month}-{day}/"
+    use_metadata_date: true
+
+  - name: Payslips
+    match:
+      contains: "payslip"
+    destination: "/organized/documents/payslips/"
+
+  - name: Generic PDFs
+    match:
+      extensions: [".pdf"]
+    destination: "/organized/documents/pdf/"
+
+settings:
+  default_destination: "/organized/unsorted/"
+  use_ai_suggestions: false
