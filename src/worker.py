@@ -1,6 +1,6 @@
 import os
 
-from src.exceptions import MissingFileException
+from src.exceptions import IgnoreDotfileException, MissingFileException
 from src.logger import logger
 from src.redis import RedisConnection
 from src.mover import FileMover
@@ -26,6 +26,8 @@ class FileMoverWorker:
                     self.mover.handle_event(data)
                 except MissingFileException as e:
                     logger.debug("File not found. Skipping event.")
+                except IgnoreDotfileException as e:
+                    logger.debug("File is a dotfile. Skipping event.")
                 except Exception as e:
                     logger.error(f"{repr(e)}")
 
