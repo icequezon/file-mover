@@ -12,6 +12,7 @@ mkdir -p "$CONFIG_DIR"
 if [ ! -f "$TARGET_CONFIG" ]; then
     echo "No user config found, copying default..."
     cp "$DEFAULT_CONFIG" "$TARGET_CONFIG"
+    chmod 777 "$TARGET_CONFIG"
 fi
 
 # Continue to your main process
