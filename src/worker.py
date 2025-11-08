@@ -1,6 +1,6 @@
 import os
 
-from src.exceptions import IgnoreDotfileException, MissingFileException
+from src.exceptions import EmptyFileException, IgnoreDotfileException, MissingFileException
 from src.logger import logger
 from src.redis import RedisConnection
 from src.mover import FileMover
@@ -24,6 +24,8 @@ class FileMoverWorker:
             for _, data in entries:
                 try:
                     self.mover.handle_event(data)
+                except EmptyFileException:
+                    logger.debug("File is empty. Skipping event.")
                 except MissingFileException:
                     logger.debug("File not found. Skipping event.")
                 except IgnoreDotfileException:

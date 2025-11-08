@@ -2,7 +2,7 @@ from src import constants
 from src.classifiers.rule_classifier import RuleClassifier
 from src.utils.metadata import extract_date_info
 from src.logger import logger
-from src.exceptions import MissingFileException, IgnoreDotfileException
+from src.exceptions import EmptyFileException, MissingFileException, IgnoreDotfileException
 
 from pathlib import Path
 
@@ -38,6 +38,9 @@ class FileMover:
         if inotify_finish_event not in event_type:
             logger.debug(f"Event {event} not supported")
             return
+
+        if path.stat().st_size == 0:
+            raise EmptyFileException("File is empty")
 
         if not path.exists():
             raise MissingFileException("File not found")

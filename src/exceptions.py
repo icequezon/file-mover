@@ -4,3 +4,7 @@ class MissingFileException(Exception):
 
 class IgnoreDotfileException(Exception):
     pass
+
+
+class EmptyFileException(Exception):
+    pass
