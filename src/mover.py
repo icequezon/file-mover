@@ -14,6 +14,7 @@ class FileMover:
         self.rule_classifier = RuleClassifier(config["rules"])
         self.default_destination = config["settings"]["default_destination"]
         self.ignore_dotfiles = config["settings"]["ignore_dotfiles"]
+        self.inotify_finish_copy_event = config["settings"]["inotify_finish_event"]
 
     def handle_event(self, event):
         logger.info(f"Handling event: {event}")
@@ -30,7 +31,11 @@ class FileMover:
             logger.debug("File was just deleted. Skipping...")
             return
 
-        if constants.INOTIFY_FINISHED_WRITE_EVENT not in event_type:
+        inotify_finish_event = constants.INOTIFY_FINISHED_WRITE_EVENT
+        if self.inotify_finish_copy_event:
+            inotify_finish_event = self.inotify_finish_copy_event
+
+        if inotify_finish_event not in event_type:
             logger.debug(f"Event {event} not supported")
             return
 
